@@ -5,8 +5,11 @@ import psycopg2 # permet d'utiliser une base de de donnée postgrès
 import uuid # génere un id unique aléatoire pour chaque utilisateur 
 import password # import le fichier 'password.py' qui lui gère le mot de passe mâtre et les mots de passes à stocker  
 
-# connexion à la base de donnée 
 
+
+
+
+# connexion à la base de donnée 
 #configuration de la db sous forme de dictionnaire
 db_config = { 
     'dbname': 'postgres',
@@ -15,6 +18,8 @@ db_config = {
     'host': '192.168.1.140',
     'port': '32768'
 }
+
+
 
 
 #génere un id unique aléatoire pour chaque utilisateur 
@@ -57,7 +62,6 @@ def add_user(login, master_password):
             cursor.close()
         if connection:
             connection.close()
-
 
 
 

@@ -1,7 +1,6 @@
 '''
 Ce fichier ce charge de retrouver des valeurs précises dans la db 
 '''
-
 import psycopg2 
 
 
@@ -15,6 +14,8 @@ db_config = {
     'host': '192.168.1.140',
     'port': '32768'
 }
+
+
 
 
 def get_hashed_password(user_id, login):
