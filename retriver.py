@@ -49,9 +49,9 @@ def get_hashed_password(user_id, login):
             cursor.close()
         if connection:
             connection.close()
-
     # Retourner None si aucun mot de passe haché n'est trouvé
     return None
+
 
 # get user_id from login
 def get_userid(login):
@@ -93,6 +93,6 @@ def get_userid(login):
     # Retourner None si aucun user_id correspondant n'est trouvé
     return None
 
-
+# donne la clé de chiffrement/déchiffrement utiliser pour l'utilisateur 
 def get_key(user_id):
     pass

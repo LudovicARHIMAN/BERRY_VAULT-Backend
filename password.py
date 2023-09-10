@@ -15,7 +15,7 @@ def password_hash(password):
 
 
 
-# regarde si le mot de passe que l'on donne et le mot de passe est bien le bon, si on donne le bon login et mot de passe on peux se connecter 
+# vérifie si le mot de passe que l'on donne est le mot de passe stocker dan la db, si on donne le bon login et mot de passe on peux se connecter 
 def login_check(login, input_password): 
 
     user_id = retriver.get_userid(login)
