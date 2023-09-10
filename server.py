@@ -7,9 +7,6 @@ import eventlet #  `basic API primitives` module
 import bcrypt # pour hasher le master password
 
 
-
-# Variable global 
-
 clients = [] # contient les id de tout les clients connecté
 
 

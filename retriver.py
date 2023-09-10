@@ -4,8 +4,6 @@ Ce fichier se charge de retrouver des valeurs précises dans la db pour les réu
 import psycopg2 
 
 
-
-
 #configuration de la db sous forme de dictionnaire
 db_config = { 
     'dbname': 'postgres',
@@ -14,8 +12,6 @@ db_config = {
     'host': '192.168.1.140',
     'port': '32768'
 }
-
-
 
 
 def get_hashed_password(user_id, login):
