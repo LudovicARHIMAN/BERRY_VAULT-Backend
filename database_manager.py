@@ -1,14 +1,11 @@
 '''
-
-Ce fichier permet de manipuler des données dans la base de donées => ajout d'utilisateurs et de mots de passes dans la db
-
+Ce fichier permet de manipuler des données dans la base de donées => ajout d'utilisateurs
 '''
-# Importation des modules 
 import psycopg2 # permet d'utiliser une base de de donnée postgrès
 import uuid # génere un id unique aléatoire pour chaque utilisateur 
 import password # import le fichier 'password.py' qui lui gère le mot de passe mâtre et les mots de passes à stocker  
 
-# connection à la base de donnée
+# connexion à la base de donnée 
 
 #configuration de la db sous forme de dictionnaire
 db_config = { 
@@ -25,19 +22,11 @@ def random_user_id():
     return str(uuid.uuid4())
 
 
-def not_in_db(data,table,db):
-    pass # regarde si une donnée n'ai pas dans la base de données
 
-
-
-
-
-
-
-
+# Ajoute un utilisateur avec comme attribut (user_id,login,master_password)
 def add_user(login, master_password):
-    user_id = random_user_id()  
-    hashed = password.password_hash(master_password)
+    user_id = random_user_id()
+    hashed = password.password_hash(master_password) # hash le mot de passe maître
 
     try:
         # Établir une connexion à la base de données
@@ -47,7 +36,7 @@ def add_user(login, master_password):
         cursor = connection.cursor()
 
         # Définir la requête SQL pour insérer un utilisateur dans la table 'users'
-        query = "INSERT INTO users (user_id, login, password_hash) VALUES (%s, %s, %s)"
+        query = "INSERT INTO users (user_id, login, master_password_hash) VALUES (%s, %s, %s)"
 
         # Définir les valeurs à insérer dans la table
         values = (user_id, login, hashed)
@@ -61,7 +50,7 @@ def add_user(login, master_password):
     except psycopg2.Error as error:
         # Gérer l'erreur de manière appropriée (par exemple, la journaliser, lever une exception)
         print("Erreur SQL :", error)
-
+    
     finally:
         # Toujours fermer le curseur et la connexion, même en cas d'erreur
         if cursor:
@@ -70,18 +59,8 @@ def add_user(login, master_password):
             connection.close()
 
 
-def get_user_id(login):
-    pass
 
 
 
+add_user("ludovic","password")
 
-
-def get__hashed_password_db(login,user_id):
-    pass
-
-
-
-
-
-add_user("login","masterpassword")

@@ -3,10 +3,7 @@ Chiffrement et stockage du mot de passe maître ainsi que des mot de passe à st
 '''
 # importation des modules 
 import bcrypt # hash les mots de passe
-import psycopg2 
-
-
-
+import retriver
 
 
 # hash le mot de passe maître pour le stocker
@@ -27,19 +24,22 @@ def password_hash(master_password):
 
 
 
-def password_ckeck(user_password):
 
-    #hashed_password_from_db = .encode('utf-8') 
 
-    password_match = bcrypt.checkpw(user_password)#,hashed_password_from_db )
+def password_check(user_id, login, prompted_password):
+    hashed_password_from_db = retriver.get_hashed_password(user_id, login)
+
+    # Encode the prompted_password as bytes
+    prompted_password_bytes = prompted_password.encode('utf-8')
+
+    password_match = bcrypt.checkpw(prompted_password_bytes, hashed_password_from_db.encode('utf-8'))
 
     if password_match:
-        # les mdp matchs, on autorise l'utilisateur à se login
+        # The passwords match; allow the user to log in
         return True
     else:
-         # les mdp ne matchs pas, on n'autorise pas l'utilisateur à se login
+        # The passwords do not match; do not allow the user to log in
         return False
 
+password_check("454df353-6738-4917-ae9f-70b4bbccffa0","ludovic","password")
 
-def vault_pass(vault_pass,KDF):
-    pass # chiffre un mot de passe que l'on ajoute au vault, ce mot de passe sera chifré à partir d'une clé KDF
