@@ -1,5 +1,5 @@
 '''
-Ce fichier ce charge de retrouver des valeurs précises dans la db 
+Ce fichier se charge de retrouver des valeurs précises dans la db pour les réutiliser ailleurs
 '''
 import psycopg2 
 
@@ -56,3 +56,54 @@ def get_hashed_password(user_id, login):
 
     # Retourner None si aucun mot de passe haché n'est trouvé
     return None
+
+# get user_id from login
+def get_userid(login):
+    try:
+        # Établir une connexion à la base de données
+        connection = psycopg2.connect(**db_config)
+
+        # Créer un objet curseur
+        cursor = connection.cursor()
+
+        # Définir la requête SQL pour récupérer le user_id depuis le login
+        query = "SELECT user_id FROM users WHERE login = %s"
+
+        # Passez le login en tant que tuple (même s'il s'agit d'une seule valeur)
+        values = (login,)
+
+        # Exécuter la requête
+        cursor.execute(query, values)
+
+        # Récupérer le résultat (en supposant que vous attendez un seul résultat)
+        result = cursor.fetchone()
+
+        if result:
+            # Le user_id se trouve dans la première (et unique) colonne du résultat
+            user_id = result[0]
+            return user_id
+
+    except psycopg2.Error as error:
+        # Gérer l'erreur de manière appropriée (par exemple, la journaliser, lever une exception)
+        print("Erreur SQL :", error)
+
+    finally:
+        # Toujours fermer le curseur et la connexion, même en cas d'erreur
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
+
+    # Retourner None si aucun user_id correspondant n'est trouvé
+    return None
+
+# Exemple d'utilisation :
+user_id = get_userid("ludovic")
+
+
+
+
+
+
+
+

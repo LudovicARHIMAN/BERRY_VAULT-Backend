@@ -9,37 +9,20 @@ import retriver
 
 
 # hash le mot de passe maître pour le stocker
-def password_hash(master_password):
-    
-  
-    # encode le mdp en utf-8
-    bytes = master_password.encode('utf-8')
-    
-    # génère un salt du mdp, 
+def password_hash(password):
+    # Genere un "salt" qui permet de différentier des mot de passe au cas ou 2 utilisateur on le même mot de passe
     salt = bcrypt.gensalt()
-    
-    # Hash le mot de pass
-    hash = bcrypt.hashpw(bytes, salt)
-  
-    return hash
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt) 
+    return hashed_password.decode('utf-8')
 
 
 
-# regarde si le mot de passse que l'on donne lors de la connexion est identique (au hash) à celui dans la db
-def password_check(user_id, login, prompted_password):
-    hashed_password_from_db = retriver.get_hashed_password(user_id, login)
+def password_check(user_id, login, input_password):
 
-    # Encode the prompted_password as bytes
-    prompted_password_bytes = prompted_password.encode('utf-8')
+    hashed_password = retriver.get_hashed_password(user_id, login) # recupère 
 
-    password_match = bcrypt.checkpw(prompted_password_bytes, hashed_password_from_db.encode('utf-8'))
-
-    if password_match:
-        # The passwords match; allow the user to log in
-        return True
-    else:
-        # The passwords do not match; do not allow the user to log in
-        return False
+    # Check if the input password matches the hashed password
+    return bcrypt.checkpw(input_password.encode('utf-8'), hashed_password.encode('utf-8'))
 
 
 

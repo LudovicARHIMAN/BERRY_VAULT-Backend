@@ -66,5 +66,4 @@ def add_user(login, master_password):
 
 
 
-add_user("ludovic","password")
 
