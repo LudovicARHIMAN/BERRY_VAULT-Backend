@@ -26,4 +26,9 @@ def password_check(user_id, login, input_password):
 
 
 
+def login_check(login,password):
+    user_id = retriver.get_userid(login)
+    if user_id != None and password == password_check(user_id,login,user_id):
+        return True # autorise la connexion
+    return False# n'autorise pas la connexion 
 

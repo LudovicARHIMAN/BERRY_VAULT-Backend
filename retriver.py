@@ -97,8 +97,7 @@ def get_userid(login):
     # Retourner None si aucun user_id correspondant n'est trouvé
     return None
 
-# Exemple d'utilisation :
-user_id = get_userid("ludovic")
+
 
 
 
