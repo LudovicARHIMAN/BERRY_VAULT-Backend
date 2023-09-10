@@ -93,6 +93,7 @@ def get_userid(login):
     # Retourner None si aucun user_id correspondant n'est trouvé
     return None
 
+
 # donne la clé de chiffrement/déchiffrement utiliser pour l'utilisateur 
 def get_key(user_id):
     pass

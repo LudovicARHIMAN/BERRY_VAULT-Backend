@@ -6,8 +6,9 @@ from Crypto.Util.Padding import pad, unpad
 from Crypto.Random import get_random_bytes
 from base64 import b64encode, b64decode
 
-def random_user_key():
-    return get_random_bytes(32)
+# Define a function to generate a random AES key
+def random_AES_key():
+    return get_random_bytes(32)  
 
 # Define the encryption function
 def encrypt_AES_CBC_256(key, message):
@@ -28,8 +29,5 @@ def decrypt_AES_CBC_256(key, ciphertext):
     plaintext_bytes = unpad(decrypted_bytes, AES.block_size)
     plaintext = plaintext_bytes.decode('utf-8')
     return plaintext
-
-
-
 
 
