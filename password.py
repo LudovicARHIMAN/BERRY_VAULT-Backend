@@ -41,5 +41,5 @@ def password_check(user_id, login, prompted_password):
         # The passwords do not match; do not allow the user to log in
         return False
 
-password_check("454df353-6738-4917-ae9f-70b4bbccffa0","ludovic","password")
+
 
