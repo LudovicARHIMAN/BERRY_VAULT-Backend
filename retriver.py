@@ -92,13 +92,3 @@ def get_userid(login):
 
     # Retourner None si aucun user_id correspondant n'est trouvé
     return None
-
-
-
-
-
-
-
-
-
-

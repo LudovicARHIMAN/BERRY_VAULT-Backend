@@ -63,7 +63,6 @@ def login_in_db(login):
 
 
 
-
 # Ajoute un utilisateur avec comme attribut (user_id,login,master_password)
 def add_user(login, master_password):
     user_id = random_user_id()
@@ -102,7 +101,4 @@ def add_user(login, master_password):
                 connection.close()
 
     return False
-
-
-
 
