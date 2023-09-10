@@ -13,7 +13,7 @@ db_config = {
     'port': '32768'
 }
 
-
+# recupère le hash du mot de passe de l'utilisateur depuis la db
 def get_hashed_password(user_id, login):
     try:
         # Établir une connexion à la base de données

@@ -62,7 +62,6 @@ def login_in_db(login):
     return False
 
 
-
 # Ajoute un utilisateur avec comme attribut (user_id,login,master_password)
 def add_user(login, master_password):
     user_id = random_user_id()
@@ -102,4 +101,6 @@ def add_user(login, master_password):
 
     return False
 
-s
+
+def add_user_key_(login,user_id):
+    pass
