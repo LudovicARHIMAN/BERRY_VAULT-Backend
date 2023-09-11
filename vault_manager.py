@@ -17,7 +17,9 @@ db_config = {
     'host': '127.0.0.1',
     'port': '32768'
 }
-# Code incomprehensible de stackoverflow
+
+
+# Code incomprehensible de stackoverflow pour encoder et décoder en AES-256-CBC
 # Define a function to generate a random AES key
 def random_AES_key():
     return get_random_bytes(32)  
@@ -97,28 +99,28 @@ def create_vault_table(table_name):
 
 def store_password(user_id, pass_name,login, password,key, table_name):
     
-    # Encrypt login and password using the key
+    # Chiffre le login et password utilisant la clé de l'utilisateur
     login_crypted = encrypt_AES_CBC_256(key, login)
     pass_crypted = encrypt_AES_CBC_256(key, password)
 
     try:
-        # Establish a connection to the database
+        # Connection à la db 
         connection = psycopg2.connect(**db_config)
         cursor = connection.cursor()
 
-        # Define the SQL query to insert the values into the table
+        # Requête SQ pour ajouter des valeurs dans la table
         query = f'INSERT INTO "{table_name}" (user_id, pass_name, login, password) VALUES (%s, %s, %s, %s)'
 
 
-        # Define the values to be inserted
+        # Definies les valeurs à ajouter dans la table sous forme tuples
         values = (user_id, pass_name, login_crypted, pass_crypted)
 
-        # Execute the query
+        # Execute la requête
         cursor.execute(query, values)
         connection.commit()
 
     except psycopg2.Error as error:
-        print("SQL Error:", error)
+        print("Erreur SQL: ", error)
     
     finally:
         if cursor:
