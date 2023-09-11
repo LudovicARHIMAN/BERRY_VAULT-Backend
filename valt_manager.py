@@ -1,5 +1,5 @@
 '''
-Gère le chiffrement des mots de passe dans le vault AES-256-CBC
+Gère le chiffrement/déchifrement des mots de passes dans le vault en AES-256-CBC
 '''
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad

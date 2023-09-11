@@ -30,6 +30,5 @@ def login_check(login, input_password):
     return True    
 
 
-print(login_check("ludovic","password"))
 
 

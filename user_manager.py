@@ -143,5 +143,3 @@ def add_user_key(login):
             connection.close()
 
     return False
-
-add_user("Pierre","password")
