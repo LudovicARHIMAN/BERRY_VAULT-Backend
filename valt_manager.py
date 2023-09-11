@@ -46,11 +46,9 @@ def decrypt_AES_CBC_256(key, ciphertext):
 
 
 
-key = random_AES_key()
 
 
-
-# Example usage:
+'''
 message_to_encrypt = "password"
 encrypted_message = encrypt_AES_CBC_256(key, message_to_encrypt)
 print("Encrypted:", encrypted_message)
@@ -58,3 +56,4 @@ print("Encrypted:", encrypted_message)
 decrypted_message = decrypt_AES_CBC_256(key, encrypted_message)
 print("Decrypted:", decrypted_message)
 
+'''

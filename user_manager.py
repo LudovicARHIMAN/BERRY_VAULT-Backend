@@ -105,43 +105,37 @@ def add_user(login, master_password):
 
 
 
+# When inserting the AES key, ensure it's in bytes format
 def add_aes_key(login):
-
     user_id = retriver.get_userid(login)
-
     key = valt_manager.random_AES_key()
-
     
     try:
-        # Établir une connexion à la base de données
+        # Establish a connection to the database
         connection = psycopg2.connect(**db_config)
-
-        # Créer un objet curseur
         cursor = connection.cursor()
 
-        # Définir la requête SQL pour insérer un utilisateur dans la table 'users'
-        query = "INSERT INTO user_key (user_id, key) VALUES (%s, %s)"
+        # Encode the key as bytes
+        key_bytes = bytes(key)
 
-        # Définir les valeurs à insérer dans la table
-        values = (user_id,key)
+        # Define the SQL query to insert the AES key as bytes
+        query = "INSERT INTO aes_keys (user_id, key_bytes) VALUES (%s, %s)"
 
-        # Exécuter la requête
-        cursor.execute(query, values)
-
-        # Valider la transaction
+        # Execute the query
+        cursor.execute(query, (user_id, key_bytes))
         connection.commit()
 
     except psycopg2.Error as error:
-        # Gérer l'erreur de manière appropriée (par exemple, la journaliser, lever une exception)
-        print("Erreur SQL :", error)
+        print("SQL Error:", error)
     
     finally:
-        # Toujours fermer le curseur et la connexion, même en cas d'erreur
         if cursor:
             cursor.close()
         if connection:
             connection.close()
 
-    return False
+add_aes_key("user")
+
+
 
 
