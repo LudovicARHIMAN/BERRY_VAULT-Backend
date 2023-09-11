@@ -23,7 +23,7 @@ def login_check(login, input_password):
     # recupère le mot de passe hashé depuis la db
     hashed_password = retriver.get_hashed_password(user_id, login) 
 
-    # Regarde si l'utilisateur qui est prompt par le cient existe et si le mot de passe donné correspond au hash dans la db
+    # Regarde si le nom d'utilisateur qui est prompt par le cient existe et si le mot de passe donné correspond au hash dans la db
     if retriver.get_userid(login) == None or ( bcrypt.checkpw(input_password.encode('utf-8'), hashed_password.encode('utf-8')))  == False:
         return "Erreur, l'utilisateur n'éxiste pas ou mot de passe incorrect"
 
