@@ -6,9 +6,6 @@ import socketio # websocket pour communiquer avec les clients
 import eventlet #  `basic API primitives` module 
 
 
-clients = [] # contient les id de tout les clients connecté
-
-
 
 # Connexion client-server
 
@@ -34,11 +31,5 @@ def handle_message(sid, data):
 
 if __name__ == '__main__':
     eventlet.wsgi.server(eventlet.listen(('localhost', 8080)), app)
-
-
- 
-
-
-
 
 

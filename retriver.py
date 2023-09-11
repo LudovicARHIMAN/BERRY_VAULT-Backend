@@ -15,7 +15,7 @@ db_config = {
 
 
 # recupère le hash du mot de passe de l'utilisateur depuis la db
-def get_hashed_password(user_id, login): # /!\ Ne pas donner en requếte, seulment au code pour se chargera "en interne" de la comparaison du mot de passe
+def get_hashed_password(user_id, login):
     try:
         # Établir une connexion à la base de données
         connection = psycopg2.connect(**db_config)
@@ -73,7 +73,7 @@ def get_userid(login):
         # Exécuter la requête
         cursor.execute(query, values)
 
-        # Récupérer le résultat (en supposant que vous attendez un seul résultat)
+        # Récupérer le résultat
         result = cursor.fetchone()
 
         if result:

@@ -46,6 +46,7 @@ def decrypt_AES_CBC_256(key, ciphertext):
     plaintext = plaintext_bytes.decode('utf-8')
     return plaintext
 
+
 # définit la fonction qui va chiffrer les logins, mots de passes 
 '''
 Chaques utilisateurs aura sa propre table pour gerer les mots de passes du vault la table user_login aura comme attributs : 
@@ -61,8 +62,11 @@ table_name =  créer une table au nom de l'utilisateur
 Example: pour stocker le mot de passe gmail_1 avec comme login = "bob" et comme password = "secret" 
 '''
 
+
 # table individuel nommé en fonction de l'utilisateur qui stocke les mots de passe des utilisateurs
 def create_vault_table(table_name):
+
+
     try:
         # Établir une connexion à la base de données
         connection = psycopg2.connect(**db_config)
@@ -95,6 +99,7 @@ def create_vault_table(table_name):
             cursor.close()
         if connection:
             connection.close()
+
 
 
 def store_password(user_id, pass_name,login, password,key, table_name):
@@ -130,6 +135,75 @@ def store_password(user_id, pass_name,login, password,key, table_name):
 
 
 
+def display_password(pass_name,key, table_name):
+    try:
+        # Établir une connexion à la base de données
+        connection = psycopg2.connect(**db_config)
+
+        # Créer un objet curseur
+        cursor = connection.cursor()
+
+        # Définir la requête SQL pour vérifier si le login existe
+        query = f'SELECT password FROM "{table_name}" WHERE pass_name = %s'
+
+        # Passez le login en tant que tuple (même s'il s'agit d'une seule valeur)
+        values = (pass_name,)
+        
+        # Exécuter la requête
+        cursor.execute(query, values)
+
+        # Récupérer le résultat
+        result = cursor.fetchone()
+
+        if result:
+            # Le user_id se trouve dans la première (et unique) colonne du résultat
+            password = result[0]
+            return decrypt_AES_CBC_256(key, password)
+
+    except psycopg2.Error as error:
+        # Gérer l'erreur de manière appropriée
+        print("Erreur SQL :", error)
+
+    finally:
+        # Toujours fermer le curseur et la connexion, même en cas d'erreur
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
+
+    # Retourner False en cas d'erreur ou si le login n'existe pas
+    return False
+
+
+
+def display_login(pass_name,key, table_name):
+    try:
+        # Établir une connexion à la base de données
+        connection = psycopg2.connect(**db_config)
+
+        # Créer un objet curseur
+        cursor = connection.cursor()
+
+        # Définir la requête SQL pour vérifier si le login existe
+        query = f'SELECT login FROM "{table_name}" WHERE pass_name = %s'
+
+        # Passez le login en tant que tuple (même s'il s'agit d'une seule valeur)
+        values = (pass_name,)
+        
+        # Exécuter la requête
+        cursor.execute(query, values)
+
+        # Récupérer le résultat
+        result = cursor.fetchone()
+
+        if result:
+            # Le user_id se trouve dans la première (et unique) colonne du résultat
+            login = result[0]
+            return decrypt_AES_CBC_256(key, login)
+
+    except psycopg2.Error as error:
+        # Gérer l'erreur de manière appropriée
+        print("Erreur SQL :", error)
 
 
 
