@@ -4,12 +4,13 @@ Ce fichier se charge de retrouver des valeurs précises dans la db pour les réu
 import psycopg2 
 
 
+
 #configuration de la db sous forme de dictionnaire
 db_config = { 
     'dbname': 'postgres',
     'user': 'root',
     'password': 'root',
-    'host': '192.168.1.140',
+    'host': '127.0.0.1',
     'port': '32768'
 }
 

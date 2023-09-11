@@ -12,7 +12,7 @@ db_config = {
     'dbname': 'postgres',
     'user': 'root',
     'password': 'root',
-    'host': '192.168.1.140',
+    'host': '127.0.0.1',
     'port': '32768'
 }
 
@@ -144,3 +144,4 @@ def add_user_key(login):
 
     return False
 
+add_user("Pierre","password")

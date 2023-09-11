@@ -17,11 +17,19 @@ def password_hash(password):
 
 # vérifie si le mot de passe que l'on donne est le mot de passe stocker dan la db, si on donne le bon login et mot de passe on peux se connecter 
 def login_check(login, input_password): 
+    # recup l' user_id depuis la db de l'utilisateur donné par le client 
+    user_id = retriver.get_userid(login) 
 
-    user_id = retriver.get_userid(login)
+    # recupère le mot de passe hashé depuis la db
+    hashed_password = retriver.get_hashed_password(user_id, login) 
 
-    hashed_password = retriver.get_hashed_password(user_id, login) # recupère le mot de passe hashé depuis la db
+    # Regarde si l'utilisateur qui est prompt par le cient existe et si le mot de passe donné correspond au hash dans la db
+    if retriver.get_userid(login) == None or ( bcrypt.checkpw(input_password.encode('utf-8'), hashed_password.encode('utf-8')))  == False:
+        return "Erreur, l'utilisateur n'éxiste pas ou mot de passe incorrect"
 
-    # Check if the input password matches the hashed password
-    return bcrypt.checkpw(input_password.encode('utf-8'), hashed_password.encode('utf-8'))
+    return True    
+
+
+print(login_check("ludovic","password"))
+
 
