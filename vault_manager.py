@@ -19,6 +19,7 @@ db_config = {
 }
 
 
+
 # Code incomprehensible de stackoverflow pour encoder et décoder en AES-256-CBC
 # Define a function to generate a random AES key
 def random_AES_key():
@@ -204,9 +205,6 @@ def display_login(pass_name,key, table_name):
     except psycopg2.Error as error:
         # Gérer l'erreur de manière appropriée
         print("Erreur SQL :", error)
-
-
-
 
 
 

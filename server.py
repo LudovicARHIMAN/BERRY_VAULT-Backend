@@ -14,7 +14,6 @@ app = socketio.WSGIApp(sio)
 
 @sio.event
 def connect(sid, environ):
-    clients.append(sid)
     print(f'Client {sid} connected')
 
 @sio.event
@@ -31,5 +30,6 @@ def handle_message(sid, data):
 
 if __name__ == '__main__':
     eventlet.wsgi.server(eventlet.listen(('localhost', 8080)), app)
+
 
 
