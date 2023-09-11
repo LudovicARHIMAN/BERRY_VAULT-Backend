@@ -105,7 +105,7 @@ def add_user(login, master_password):
 
 
 
-def add_user_key(login):
+def add_aes_key(login):
 
     user_id = retriver.get_userid(login)
 
@@ -143,3 +143,5 @@ def add_user_key(login):
             connection.close()
 
     return False
+
+

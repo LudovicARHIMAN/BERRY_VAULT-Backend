@@ -4,7 +4,6 @@ Ce fichier ce charge de gérer les intéractions client-server
 # Importation des modules 
 import socketio # websocket pour communiquer avec les clients 
 import eventlet #  `basic API primitives` module 
-import bcrypt # pour hasher le master password
 
 
 clients = [] # contient les id de tout les clients connecté
