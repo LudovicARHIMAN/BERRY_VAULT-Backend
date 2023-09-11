@@ -98,47 +98,6 @@ def get_userid(login):
 
 
 # recupère la clé de chiffrement/déchiffrement utilisé pour l'utilisateur 
-'''def get_key(login):
-    user_id = get_userid(login)
-
-    try:
-        # Établir une connexion à la base de données
-        connection = psycopg2.connect(**db_config)
-
-        # Créer un objet curseur
-        cursor = connection.cursor()
-
-        # Définir la requête SQL pour récupérer la cle en fonction de l'user_id 
-        query = "SELECT key_bytes FROM aes_keys WHERE user_id = %s"
-
-        # Définir les valeurs pour user_id et login
-        values = (user_id,)
-
-        # Exécuter la requête
-        cursor.execute(query, values)
-
-        # Récupérer le résultat (en supposant que vous attendez un seul résultat)
-        result = cursor.fetchone()
-
-        if result:
-            # la clé de chiffrement se trouve dans la première (et unique) colonne du résultat
-            key = result[0]
-            return key
-
-    except psycopg2.Error as error:
-        # Gérer l'erreur de manière appropriée (par exemple, la journaliser, lever une exception)
-        print("Erreur SQL :", error)
-
-    finally:
-        # Toujours fermer le curseur et la connexion, même en cas d'erreur
-        if cursor:
-            cursor.close()
-        if connection:
-            connection.close()
-    # Retourner None si aucun mot de passe haché n'est trouvé
-    return None
-'''
-
 def get_aes_key(login):
     try:
         user_id = get_userid(login)

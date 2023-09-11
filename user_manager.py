@@ -4,7 +4,7 @@ Ce fichier permet de manipuler des données dans la base de donées => ajout d'u
 import psycopg2 # permet d'utiliser une base de de donnée postgrès
 import uuid # génere un id unique aléatoire pour chaque utilisateur 
 import password # import le fichier 'password.py' qui lui gère le mot de passe mâtre et les mots de passes à stocker  
-import valt_manager
+import vault_manager
 import retriver
 
 #configuration de la db sous forme de dictionnaire
@@ -49,7 +49,7 @@ def user_exist(login):
             return False
 
     except psycopg2.Error as error:
-        # Gérer l'erreur de manière appropriée (par exemple, la journaliser, lever une exception)
+        # Gérer l'erreur de manière appropriée
         print("Erreur SQL :", error)
 
     finally:
@@ -108,21 +108,23 @@ def add_user(login, master_password):
 # When inserting the AES key, ensure it's in bytes format
 def add_aes_key(login):
     user_id = retriver.get_userid(login)
-    key = valt_manager.random_AES_key()
+    key = vault_manager.random_AES_key()
     
     try:
-        # Establish a connection to the database
+        # Etablit la connexion à la db
         connection = psycopg2.connect(**db_config)
         cursor = connection.cursor()
 
-        # Encode the key as bytes
+        # encode les clé en bytes
         key_bytes = bytes(key)
 
-        # Define the SQL query to insert the AES key as bytes
+        # Requête pour ajouter des clés 
         query = "INSERT INTO aes_keys (user_id, key_bytes) VALUES (%s, %s)"
 
-        # Execute the query
-        cursor.execute(query, (user_id, key_bytes))
+        values = (user_id, key_bytes)
+
+        # Executer la requête
+        cursor.execute(query, values)
         connection.commit()
 
     except psycopg2.Error as error:
@@ -133,9 +135,4 @@ def add_aes_key(login):
             cursor.close()
         if connection:
             connection.close()
-
-add_aes_key("user")
-
-
-
 
