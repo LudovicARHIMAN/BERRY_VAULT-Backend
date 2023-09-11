@@ -4,7 +4,7 @@ Ce fichier permet de manipuler des données dans la base de donées => ajout d'u
 import psycopg2 # permet d'utiliser une base de de donnée postgrès
 import uuid # génere un id unique aléatoire pour chaque utilisateur 
 import password # import le fichier 'password.py' qui lui gère le mot de passe mâtre et les mots de passes à stocker  
-import vault
+import valt_manager
 import retriver
 
 #configuration de la db sous forme de dictionnaire
@@ -109,7 +109,7 @@ def add_user_key(login):
 
     user_id = retriver.get_userid(login)
 
-    key = vault.random_AES_key()
+    key = valt_manager.random_AES_key()
 
     
     try:
