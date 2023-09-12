@@ -6,15 +6,7 @@ import uuid # génere un id unique aléatoire pour chaque utilisateur
 import password # import le fichier 'password.py' qui lui gère le mot de passe mâtre et les mots de passes à stocker  
 import vault_manager
 import retriver
-
-#configuration de la db sous forme de dictionnaire
-db_config = { 
-    'dbname': 'postgres',
-    'user': 'root',
-    'password': 'uKenNdraJHgv5i6Dm8X6',
-    'host': '127.0.0.1',
-    'port': '5432'
-}
+from db_config import db_config
 
 
 
@@ -135,5 +127,11 @@ def add_aes_key(login):
             cursor.close()
         if connection:
             connection.close()
+
+def new_user(login, master_password):
+    '''
+    Créer et rempli les tables pour un nouvel utilisateur
+    ''' 
+    return add_user(login,master_password), add_aes_key(login)
 
 

@@ -7,17 +7,7 @@ from Crypto.Random import get_random_bytes
 from base64 import b64encode, b64decode
 import retriver
 import psycopg2
-
-
-#configuration de la db sous forme de dictionnaire
-db_config = { 
-    'dbname': 'postgres',
-    'user': 'root',
-    'password': 'root',
-    'host': '127.0.0.1',
-    'port': '32768'
-}
-
+from db_config import db_config
 
 
 # Code incomprehensible de stackoverflow pour encoder et décoder en AES-256-CBC

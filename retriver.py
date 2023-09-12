@@ -2,16 +2,8 @@
 Ce fichier se charge de retrouver des valeurs précises dans la db pour les réutiliser ailleurs
 '''
 import psycopg2 
-
+from db_config import db_config
 #configuration de la db sous forme de dictionnaire
-db_config = { 
-    'dbname': 'postgres',
-    'user': 'root',
-    'password': 'uKenNdraJHgv5i6Dm8X6',
-    'host': '127.0.0.1',
-    'port': '32768'
-}
-
 
 
 # recupère le hash du mot de passe de l'utilisateur depuis la db
