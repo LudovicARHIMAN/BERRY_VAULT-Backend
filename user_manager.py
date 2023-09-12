@@ -6,14 +6,12 @@ import uuid # génere un id unique aléatoire pour chaque utilisateur
 import password # import le fichier 'password.py' qui lui gère le mot de passe mâtre et les mots de passes à stocker  
 import vault_manager
 import retriver
-from db_config import db_config
-
+from db_config import db_config, create_vault_table
 
 
 # génere un id unique aléatoire pour chaque utilisateur 
 def random_user_id():
     return str(uuid.uuid4())
-
 
 
 # vérifie que le login ne soit pas dans la db 
@@ -53,7 +51,6 @@ def user_exist(login):
 
     # Retourner False en cas d'erreur ou si le login n'existe pas
     return False
-
 
 
 # Ajoute un utilisateur avec comme attribut (user_id,login,master_password)
@@ -96,7 +93,6 @@ def add_user(login, master_password):
     return False
 
 
-
 # When inserting the AES key, ensure it's in bytes format
 def add_aes_key(login):
     user_id = retriver.get_userid(login)
@@ -128,10 +124,10 @@ def add_aes_key(login):
         if connection:
             connection.close()
 
+
 def new_user(login, master_password):
     '''
     Créer et rempli les tables pour un nouvel utilisateur
     ''' 
-    return add_user(login,master_password), add_aes_key(login)
-
+    return add_user(login,master_password), add_aes_key(login), create_vault_table(login)
 

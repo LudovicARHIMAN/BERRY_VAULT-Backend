@@ -30,5 +30,3 @@ def handle_message(sid, data):
 if __name__ == '__main__':
     eventlet.wsgi.server(eventlet.listen(('localhost', 8080)), app)
 
-
-
