@@ -8,7 +8,6 @@ import eventlet #  `basic API primitives` module
 
 
 # Connexion client-server
-
 sio = socketio.Server(cors_allowed_origins='*')
 app = socketio.WSGIApp(sio)
 
