@@ -119,12 +119,12 @@ def create_vault_table(table_name):
         if connection:
             connection.close()
 
-            
+
 
 def init():
 
     '''
-    Cette fonction permet d'appeler les autres fonctions pour créer toutes les tables nécessaire pour faire fonctionner l'app
+    Cette fonction permet d'appeler les autres fonctions pour créer toutes les tables nécessaires pour constituer la db
     '''
 
     return create_aes_key_table(), create_users_table()

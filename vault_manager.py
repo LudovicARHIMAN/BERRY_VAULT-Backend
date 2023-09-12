@@ -93,6 +93,9 @@ def store_password(user_id, pass_name,login, password,key, table_name):
 
 
 def display_password(pass_name,key, table_name):
+
+    table_name = table_name+"'s Personal Vault"
+
     try:
         # Établir une connexion à la base de données
         connection = psycopg2.connect(**db_config)
@@ -134,6 +137,10 @@ def display_password(pass_name,key, table_name):
 
 
 def display_login(pass_name,key, table_name):
+
+    table_name = table_name+"'s Personal Vault"
+
+
     try:
         # Établir une connexion à la base de données
         connection = psycopg2.connect(**db_config)
@@ -163,9 +170,9 @@ def display_login(pass_name,key, table_name):
         print("Erreur SQL :", error)
 
 id = retriver.get_userid("Ludovic")
-store_password(id,"password-1","ludovicarhiman900@gmail.com","password",retriver.get_aes_key("Ludovic"),)
+store_password(id,"password-1","ludovicarhiman900@gmail.com","password",retriver.get_aes_key("Ludovic"),"Ludovic")
 
-
+#print(display_login("password-1",retriver.get_aes_key("Ludovic"),"Ludovic"))
 
 
 '''
