@@ -11,9 +11,9 @@ import retriver
 db_config = { 
     'dbname': 'postgres',
     'user': 'root',
-    'password': 'root',
+    'password': 'uKenNdraJHgv5i6Dm8X6',
     'host': '127.0.0.1',
-    'port': '32768'
+    'port': '5432'
 }
 
 
