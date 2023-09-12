@@ -129,3 +129,4 @@ def init():
 
     return create_aes_key_table(), create_users_table()
 
+
