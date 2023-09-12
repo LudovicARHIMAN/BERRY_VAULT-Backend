@@ -136,5 +136,4 @@ def add_aes_key(login):
         if connection:
             connection.close()
 
-add_user("Dany","password")
 
