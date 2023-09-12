@@ -46,7 +46,6 @@ user_id = identifier à qui appartient le mot de passe
 login = login du mot de passe que l'on souhaite stocker 
 password = mot de passe à stocker
 pass_name = nom du mot de passe permet de donner un nom au mot de passe pour le retrouver plus tard (ex : gamail_1 )
-link = on peut mettre si on veux un lien pour rediriger site pour se login (comme le fait bitwarden)
 
 key en argument permet de chiffrer les mots de passes 
 table_name =  créer une table au nom de l'utilisateur
@@ -169,8 +168,6 @@ def display_login(pass_name,key, table_name):
         # Gérer l'erreur de manière appropriée
         print("Erreur SQL :", error)
 
-id = retriver.get_userid("Ludovic")
-store_password(id,"password-1","ludovicarhiman900@gmail.com","password",retriver.get_aes_key("Ludovic"),"Ludovic")
 
 #print(display_login("password-1",retriver.get_aes_key("Ludovic"),"Ludovic"))
 
