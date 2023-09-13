@@ -13,6 +13,29 @@ loginButton.addEventListener('click', () => {
     socket.emit('login', { login, password });
 });
 
+const add_user = document.getElementById('add_user');
+add_user.addEventListener('click', () => {
+    const login = document.getElementById('user_name').value;
+    const password = document.getElementById('create_password').value;
+
+    socket.emit('new_user', { login, password });
+});
+
+const display_password_login = document.getElementById('add_user');
+add_user.addEventListener('click', () => {
+    const login = document.getElementById('user_name').value;
+    const password = document.getElementById('create_password').value;
+
+    socket.emit('new_user', { login, password });
+});
+
+
+
+
+
+
+
+
 socket.on('login_response', (data) => {
     if (data.success) {
         console.log('Login successful');
@@ -22,4 +45,17 @@ socket.on('login_response', (data) => {
         // Handle failed login, e.g., show an error message
     }
 });
+
+socket.on('new_user_res', (data) => {
+    if (data.success) {
+        console.log('New User Created');
+        // Handle successful login, e.g., navigate to another page
+    } else {
+        console.log('Creation Failed');
+        // Handle failed login, e.g., show an error message
+    }
+});
+
+
+
 
