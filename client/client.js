@@ -21,13 +21,14 @@ add_user.addEventListener('click', () => {
     socket.emit('new_user', { login, password });
 });
 
-const display_password_login = document.getElementById('add_user');
-add_user.addEventListener('click', () => {
+const display_password_login = document.getElementById('Display');
+display_password_login.addEventListener('click', () => {
     const login = document.getElementById('user_name').value;
-    const password = document.getElementById('create_password').value;
+    const password = document.getElementById('pass_name').value;
 
-    socket.emit('new_user', { login, password });
+    socket.emit('display_password_login', { login, pass_name });
 });
+
 
 
 
@@ -47,6 +48,7 @@ socket.on('login_response', (data) => {
 });
 
 socket.on('new_user_res', (data) => {
+
     if (data.success) {
         console.log('New User Created');
         // Handle successful login, e.g., navigate to another page
@@ -55,6 +57,15 @@ socket.on('new_user_res', (data) => {
         // Handle failed login, e.g., show an error message
     }
 });
+
+
+socket.on('display_password_login', (data) => {
+
+    console.log(data)
+
+});
+
+
 
 
 

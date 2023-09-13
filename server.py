@@ -29,7 +29,7 @@ def handle_login(data):
 
 # Ajout d'un nouvel utilisater
 @socketio.on('new_user')
-def handle_login(data):
+def handle_newuser(data):
     login = data['login']
     password = data['password']
     
@@ -42,15 +42,16 @@ def handle_login(data):
 
 # affiche les login et password
 @socketio.on('display_password_login')
-def handle_login(data):
+def handle_display_pass_login(data):
     login = data['login']
     pass_name = data['pass_name']
+
+    key = retriver.get_aes_key(login)
+
+    dis_login = vault_manager.display_login(pass_name,key,login)
+    dis_pass = vault_manager.display_password(pass_name,key,login)
     
-    if user_manager.user_exist(login):
-        socketio.emit('new_user_res', {'success': False})
-    else:
-        vault_manager.dis(login,pass_name)
-        socketio.emit('new_user_res', {'success': True})
+    socketio.emit('display_password_login',  {dis_login, dis_pass})
 
 
 

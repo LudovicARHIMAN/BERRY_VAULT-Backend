@@ -58,7 +58,6 @@ Example: pour stocker le mot de passe gmail_1 avec comme login = "bob" et comme 
 
 def store_password(user_id, pass_name,login, password,key, table_name):
 
-    table_name = table_name+"'s Personal Vault"
     
     # Chiffre le login et password utilisant la clé de l'utilisateur
     login_crypted = encrypt_AES_CBC_256(key, login)
@@ -93,7 +92,6 @@ def store_password(user_id, pass_name,login, password,key, table_name):
 
 def display_password(pass_name,key, table_name):
 
-    table_name = table_name+"'s Personal Vault"
 
     try:
         # Établir une connexion à la base de données
@@ -137,7 +135,6 @@ def display_password(pass_name,key, table_name):
 
 def display_login(pass_name,key, table_name):
 
-    table_name = table_name+"'s Personal Vault"
 
 
     try:
@@ -168,8 +165,14 @@ def display_login(pass_name,key, table_name):
         # Gérer l'erreur de manière appropriée
         print("Erreur SQL :", error)
 
+login = "Ludovic"
+id = retriver.get_userid(login)
+key = retriver.get_aes_key(login)
+pass_name = "google_1"
 
-#print(display_login("password-1",retriver.get_aes_key("Ludovic"),"Ludovic"))
+# store_password(id,"google_1",login,"password",key,login)
+
+print(display_login(login,key,pass_name), display_password(login,key,pass_name))
 
 
 '''
