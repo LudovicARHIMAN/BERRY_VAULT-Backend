@@ -1,32 +1,35 @@
 '''
 Ce fichier ce charge de gérer les intéractions client-server
 '''
-# Importation des modules 
-import socketio # websocket pour communiquer avec les clients 
-import eventlet #  `basic API primitives` module 
+from flask import Flask, request
+from flask_socketio import SocketIO
+import user_manager
+import retriver 
+import vault_manager
+import password as passwd
 
 
+app = Flask(__name__)
+socketio = SocketIO(app, cors_allowed_origins="*")
 
-# Connexion client-server
-sio = socketio.Server(cors_allowed_origins='*')
-app = socketio.WSGIApp(sio)
-
-@sio.event
-def connect(sid, environ):
-    print(f'Client {sid} connected')
-
-@sio.event
-def disconnect(sid):
-    print(f'Client {sid} disconnected')
+@socketio.on('connect')
+def handle_connect():
+    print('Client connected')
 
 
+@socketio.on('login')
+def handle_login(data):
+    login = data['login']
+    password = data['password']
 
-@sio.on('message')
-def handle_message(sid, data):
-    print(f'Received message: {data}')
-    sio.emit('response', data)  # envoie la réponse aux clients
+    
+
+    if passwd.login_check(login,password):
+        socketio.emit('login_response', {'success': True})
+    else:
+        socketio.emit('login_response', {'success': False})
+
 
 
 if __name__ == '__main__':
-    eventlet.wsgi.server(eventlet.listen(('localhost', 8080)), app)
-
+    socketio.run(app, debug=True)
