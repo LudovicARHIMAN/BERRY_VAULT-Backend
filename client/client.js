@@ -37,6 +37,7 @@ display_password_login.addEventListener('click', () => {
 
 
 
+
 socket.on('login_response', (data) => {
     if (data.success) {
         console.log('Login successful');

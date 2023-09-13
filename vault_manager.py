@@ -172,7 +172,7 @@ pass_name = "google_1"
 
 # store_password(id,"google_1",login,"password",key,login)
 
-print(display_login(login,key,pass_name), display_password(login,key,pass_name))
+print(display_login(), display_password(login,key,pass_name))
 
 
 '''

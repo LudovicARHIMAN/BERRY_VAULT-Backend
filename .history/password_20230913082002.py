@@ -1,5 +1,5 @@
 '''
-Chiffrement et stockage du mot de passe maître, il permet aussi de gérer la comparaison de hash avec le mot de passe fournit en connexion
+Chiffrement et stockage du mot de passe maître ainsi que de gérer la comparaison de hash avec le mot de passe fournit en connexion
 '''
 # importation des modules 
 import bcrypt # hash les mots de passe
