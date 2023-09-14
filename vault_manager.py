@@ -1,46 +1,45 @@
 '''
-Gère le chiffrement/déchifrement () des mots de passes dans le vault en AES-256-CBC ansi que le stockage des mots de passe
+Gère le chiffrement/déchifrement (AES256 avec une clé génére à partir du mot de passe [PWKDF2]) des mots de passes dans le vault en AES-256-CBC ansi que le stockage des mots de passe
 '''
 import psycopg2
 from db_config import db_config
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 from Crypto.Random import get_random_bytes
-from Crypto.Protocol.KDF import PBKDF2HMAC
+from Crypto.Protocol.KDF import PBKDF2
 from base64 import b64encode, b64decode
 import hashlib
-
+import os
+import hmac
 
 # Define a function to derive a key from a password using PBKDF2
-def derive_key(password, salt):
+def derive_key(password, salt=None):
+    if salt is None:
+        salt = get_random_bytes(16)  # Generate a random salt
     # Use PBKDF2 with HMAC-SHA256 to derive the key
-    key = PBKDF2HMAC(
+    key = PBKDF2(
         password.encode('utf-8'),
         salt,
         dkLen=32,  # AES-256 requires a 256-bit key
         count=100000,  # Number of iterations (adjust as needed)
-        hmac_hash_module=hashlib.sha256
+        prf=lambda p, s: hmac.new(p, s, hashlib.sha256).digest()
     )
-    return key
+    return key, salt
 
 # Define the encryption function
-def encrypt_AES_CBC_256(password, message):
-    salt = get_random_bytes(16)  # Generate a random salt
-    key = derive_key(password, salt)  # Derive the key from the password and salt
+def encrypt_AES_CBC_256(key, message):
     iv = get_random_bytes(AES.block_size)
     cipher = AES.new(key, AES.MODE_CBC, iv)
     padded_message = pad(message.encode('utf-8'), AES.block_size)
     ciphertext_bytes = cipher.encrypt(padded_message)
-    ciphertext = b64encode(salt + iv + ciphertext_bytes).decode('utf-8')
+    ciphertext = b64encode(iv + ciphertext_bytes).decode('utf-8')
     return ciphertext
 
 # Define the decryption function
-def decrypt_AES_CBC_256(password, ciphertext):
+def decrypt_AES_CBC_256(key, ciphertext):
     ciphertext_bytes = b64decode(ciphertext)
-    salt = ciphertext_bytes[:16]  # Extract the salt
-    iv = ciphertext_bytes[16:32]  # Extract the IV
-    ciphertext_bytes = ciphertext_bytes[32:]
-    key = derive_key(password, salt)  # Derive the key from the password and salt
+    iv = ciphertext_bytes[:16]  # Extract the IV
+    ciphertext_bytes = ciphertext_bytes[16:]
     cipher = AES.new(key, AES.MODE_CBC, iv)
     decrypted_bytes = cipher.decrypt(ciphertext_bytes)
     plaintext_bytes = unpad(decrypted_bytes, AES.block_size)
@@ -177,13 +176,16 @@ def display_login(pass_name,key, table_name):
         print("Erreur SQL :", error)
 
 
-'''
-# message_to_encrypt = "password"
-encrypted_message = "C7XGVZ9P0XVKYY07OutBaubtNqRAj5Pt3/Nz8Xw9SZ8="
-print("Encrypted:", encrypted_message)
+# Derive the key and salt
+key, salt = derive_key("Password")
 
-decrypted_message = decrypt_AES_CBC_256(key, encrypted_message)
-print("Decrypted:", decrypted_message)
+to_encrypt = "message_secret"
 
-'''
+# Encrypt the message using the derived key
+encrypted_message = encrypt_AES_CBC_256(key, to_encrypt)
 
+print(encrypted_message)
+
+decrypt = decrypt_AES_CBC_256(key, encrypted_message)
+
+print(decrypt)
