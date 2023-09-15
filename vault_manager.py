@@ -3,6 +3,7 @@ Gère le chiffrement/déchifrement (AES256 avec une clé génére à partir du m
 '''
 import psycopg2
 from db_config import db_config
+import retriver
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 from Crypto.Random import get_random_bytes
@@ -12,19 +13,21 @@ import hashlib
 import os
 import hmac
 
+# Code de mystique de statck overflow 
+
 # Define a function to derive a key from a password using PBKDF2
-def derive_key(password, salt=None):
-    if salt is None:
-        salt = get_random_bytes(16)  # Generate a random salt
-    # Use PBKDF2 with HMAC-SHA256 to derive the key
+def derive_key(password):
+    # Use PBKDF2 with HMAC-SHA256 to derive the key without a salt
     key = PBKDF2(
         password.encode('utf-8'),
-        salt,
+        b'',  # Empty salt
         dkLen=32,  # AES-256 requires a 256-bit key
         count=100000,  # Number of iterations (adjust as needed)
         prf=lambda p, s: hmac.new(p, s, hashlib.sha256).digest()
     )
-    return key, salt
+    return key
+
+
 
 # Define the encryption function
 def encrypt_AES_CBC_256(key, message):
@@ -65,11 +68,11 @@ Example: pour stocker le mot de passe gmail_1 avec comme login = "bob" et comme 
 
 
 
-
-def store_password(user_id, pass_name,login, password,key, table_name):
-
+def store_password_login(user_login, user_password, user_id, pass_name, login, password):
     
-    # Chiffre le login et password utilisant la clé de l'utilisateur
+    key = derive_key(user_password)
+
+    # Chiffre le login et mdp utilisant la clé de l'utilisateur dérivé du mot de passe
     login_crypted = encrypt_AES_CBC_256(key, login)
     pass_crypted = encrypt_AES_CBC_256(key, password)
 
@@ -79,7 +82,7 @@ def store_password(user_id, pass_name,login, password,key, table_name):
         cursor = connection.cursor()
 
         # Requête SQ pour ajouter des valeurs dans la table
-        query = f'INSERT INTO "{table_name}" (user_id, pass_name, login, password) VALUES (%s, %s, %s, %s)'
+        query = f'INSERT INTO "{user_login}" (user_id, pass_name, login, password) VALUES (%s, %s, %s, %s)'
 
 
         # Definies les valeurs à ajouter dans la table sous forme tuples
@@ -100,8 +103,9 @@ def store_password(user_id, pass_name,login, password,key, table_name):
 
 
 
-def display_password(pass_name,key, table_name):
+def display_password(pass_name,user_password, table_name):
 
+    key = derive_key(user_password)
 
     try:
         # Établir une connexion à la base de données
@@ -125,7 +129,7 @@ def display_password(pass_name,key, table_name):
         if result:
             # Le user_id se trouve dans la première (et unique) colonne du résultat
             password = result[0]
-            return decrypt_AES_CBC_256(key, password)
+            return decrypt_AES_CBC_256(key, str(password))
 
     except psycopg2.Error as error:
         # Gérer l'erreur de manière appropriée
@@ -143,9 +147,9 @@ def display_password(pass_name,key, table_name):
 
 
 
-def display_login(pass_name,key, table_name):
+def display_login(pass_name,user_password, table_name):
 
-
+    key = derive_key(user_password)
 
     try:
         # Établir une connexion à la base de données
@@ -169,23 +173,46 @@ def display_login(pass_name,key, table_name):
         if result:
             # Le user_id se trouve dans la première (et unique) colonne du résultat
             login = result[0]
-            return decrypt_AES_CBC_256(key, login)
+            return decrypt_AES_CBC_256(key,str(login))
 
     except psycopg2.Error as error:
         # Gérer l'erreur de manière appropriée
         print("Erreur SQL :", error)
 
 
-# Derive the key and salt
-key, salt = derive_key("Password")
+'''
+id = retriver.get_userid("Ludovic")
 
-to_encrypt = "message_secret"
+store_password_login(user_login, user_password, user_id, pass_name, login, password)
+
+store_password_login("Ludovic","password",id,"google-1","email","assword",)
+
+print(display_password("google-1","password","Ludovic"))
+print(display_login("google-1","password","Ludovic"))
+
+'''
+
+
+
+
+'''
+key = derive_key("password")
+print(decrypt_AES_CBC_256(key,"Tz4MMLStQut3vdwxlz8jYJwD+azf7WThqZ8lmjoKd04="))
+
+
+
+
+# Derive the key and salt
+
+
+
+to_encrypt = "password"
 
 # Encrypt the message using the derived key
 encrypted_message = encrypt_AES_CBC_256(key, to_encrypt)
+print(type(encrypted_message))
 
-print(encrypted_message)
 
-decrypt = decrypt_AES_CBC_256(key, encrypted_message)
+'''
 
-print(decrypt)
+
