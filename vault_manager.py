@@ -185,12 +185,15 @@ id = retriver.get_userid("Ludovic")
 
 store_password_login(user_login, user_password, user_id, pass_name, login, password)
 
-store_password_login("Ludovic","password",id,"google-1","email","assword",)
+
+#store_password_login("Ludovic","password",id,"google-1","email","password",)
+
+
 
 print(display_password("google-1","password","Ludovic"))
-print(display_login("google-1","password","Ludovic"))
+#print(display_login("google-1","password","Ludovic"))
 
-'''
+''
 
 
 

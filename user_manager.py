@@ -93,41 +93,11 @@ def add_user(login, master_password):
     return False
 
 
-# When inserting the AES key, ensure it's in bytes format
-def add_aes_key(login):
-    user_id = retriver.get_userid(login)
-    key = vault_manager.random_AES_key()
-    
-    try:
-        # Etablit la connexion à la db
-        connection = psycopg2.connect(**db_config)
-        cursor = connection.cursor()
-
-        # encode les clé en bytes
-        key_bytes = bytes(key)
-
-        # Requête pour ajouter des clés 
-        query = "INSERT INTO aes_keys (user_id, key_bytes) VALUES (%s, %s)"
-
-        values = (user_id, key_bytes)
-
-        # Executer la requête
-        cursor.execute(query, values)
-        connection.commit()
-
-    except psycopg2.Error as error:
-        print("SQL Error:", error)
-    
-    finally:
-        if cursor:
-            cursor.close()
-        if connection:
-            connection.close()
 
 
 def new_user(login, master_password):
     '''
     Créer et rempli les tables pour un nouvel utilisateur
     ''' 
-    return add_user(login,master_password), add_aes_key(login), create_vault_table(login)
+    return add_user(login,master_password), create_vault_table(login)
 
