@@ -13,7 +13,7 @@ Secured (almost) password manager with master password hashed in bcrypt and vaul
 - Once your account is created, we establish a personal table in our server's database to store all your passwords. This essentially serves as your personal vault.
 
 **Master Password Security:**
-- Your master password is securely hashed and stored in the database using the bcrypt algorithm to perform a login.
+- Your master password is securely hashed and stored in the database using the bcrypt algorithm
 
 **Encryption and Decryption:**
 - Your master password plays a crucial role in encrypting and decrypting the information within your vault. Each time you want to perform these actions, you'll be required to provide your master password.
