@@ -193,16 +193,8 @@ store_password_login(user_login, user_password, user_id, pass_name, login, passw
 print(display_password("google-1","password","Ludovic"))
 #print(display_login("google-1","password","Ludovic"))
 
-''
 
 
-
-
-'''
-
-
-
-# Derive the key and salt
 
 
 
