@@ -19,6 +19,8 @@ Secured (almost) password manager with master password hashed in bcrypt and vaul
 - Your master password plays a crucial role in encrypting and decrypting the information within your vault. Each time you want to perform these actions, you'll be required to provide your master password.
 - To ensure security, your master password generates a key using the PBKDF2 algorithm, which is then used for encrypting and decrypting information in your vault using AES-256-CBC.
 
+**NO MASTER PASSWORD RECOVER**
+- If you loose your master password you loose everything for ever :)   
 
 
 
