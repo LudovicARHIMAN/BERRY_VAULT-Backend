@@ -1,5 +1,5 @@
 '''
-Gère le chiffrement/déchifrement (AES256 avec une clé génére à partir du mot de passe [PWKDF2]) des mots de passes dans le vault en AES-256-CBC ansi que le stockage des mots de passe
+Gère le chiffrement/déchifrement (AES256 avec une clé génére à partir du mot de passe [PWKDF2]) des mots de passes dans le vault en AES-256-CBC ansi que le stockage des mots de passes
 '''
 import psycopg2
 from db_config import db_config
@@ -70,6 +70,8 @@ Example: pour stocker le mot de passe gmail_1 avec comme login = "bob" et comme 
 
 def store_password_login(user_login, user_password, user_id, pass_name, login, password):
     
+    table_name = user_login+"'s Personal Vault"
+    
     key = derive_key(user_password)
 
     # Chiffre le login et mdp utilisant la clé de l'utilisateur dérivé du mot de passe
@@ -82,7 +84,7 @@ def store_password_login(user_login, user_password, user_id, pass_name, login, p
         cursor = connection.cursor()
 
         # Requête SQ pour ajouter des valeurs dans la table
-        query = f'INSERT INTO "{user_login}" (user_id, pass_name, login, password) VALUES (%s, %s, %s, %s)'
+        query = f'INSERT INTO "{table_name}" (user_id, pass_name, login, password) VALUES (%s, %s, %s, %s)'
 
 
         # Definies les valeurs à ajouter dans la table sous forme tuples
@@ -103,7 +105,9 @@ def store_password_login(user_login, user_password, user_id, pass_name, login, p
 
 
 
-def display_password(pass_name,user_password, table_name):
+def display_password(pass_name,user_password, user_login):
+
+    table_name = user_login+"'s Personal Vault"
 
     key = derive_key(user_password)
 
@@ -147,7 +151,9 @@ def display_password(pass_name,user_password, table_name):
 
 
 
-def display_login(pass_name,user_password, table_name):
+def display_login(pass_name,user_password, user_login):
+
+    table_name = user_login+"'s Personal Vault"
 
     key = derive_key(user_password)
 
@@ -180,10 +186,13 @@ def display_login(pass_name,user_password, table_name):
         print("Erreur SQL :", error)
 
 
+
+
+
 '''
 id = retriver.get_userid("Ludovic")
 
-store_password_login(user_login, user_password, user_id, pass_name, login, password)
+#store_password_login(user_login, user_password, user_id, pass_name, login, password)
 
 
 #store_password_login("Ludovic","password",id,"google-1","email","password",)
@@ -191,9 +200,7 @@ store_password_login(user_login, user_password, user_id, pass_name, login, passw
 
 
 print(display_password("google-1","password","Ludovic"))
-#print(display_login("google-1","password","Ludovic"))
-
-
+print(display_login("google-1","password","Ludovic"))
 
 
 
@@ -206,5 +213,4 @@ print(type(encrypted_message))
 
 
 '''
-
 
