@@ -67,7 +67,7 @@ Example: pour stocker le mot de passe gmail_1 avec comme login = "bob" et comme 
 '''
 
 
-
+# Vault perso
 def store_password_login(user_login, user_password, user_id, pass_name, login, password):
     
     table_name = user_login+"'s Personal Vault"
@@ -186,31 +186,5 @@ def display_login(pass_name,user_password, user_login):
         print("Erreur SQL :", error)
 
 
-
-
-
-'''
-id = retriver.get_userid("Ludovic")
-
-#store_password_login(user_login, user_password, user_id, pass_name, login, password)
-
-
-#store_password_login("Ludovic","password",id,"google-1","email","password",)
-
-
-
-print(display_password("google-1","password","Ludovic"))
-print(display_login("google-1","password","Ludovic"))
-
-
-
-
-to_encrypt = "password"
-
-# Encrypt the message using the derived key
-encrypted_message = encrypt_AES_CBC_256(key, to_encrypt)
-print(type(encrypted_message))
-
-
-'''
+# Vault partagé
 
