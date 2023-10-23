@@ -7,7 +7,7 @@ Secured (almost) password manager with master password hashed in bcrypt and vaul
 
 
 **Account Creation:**
-- To create an account, you need to provide a Login (email) and a strong 24-characters password (containing uppercase, lowercase, digits and special characters of course).
+- To create an account, you need to provide a Login (email) and a strong master password
 
 **Data Storage:**
 - Once your account is created, we establish a personal table in our server's database to store all your passwords. This essentially serves as your personal vault.
