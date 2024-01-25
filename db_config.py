@@ -9,7 +9,7 @@ import psycopg2
 db_config = { 
     'dbname': 'postgres',
     'user': 'root',
-    'password': 'uKenNdraJHgv5i6Dm8X6',
+    'password': '',
     'host': '127.0.0.1',
     'port': '5432'
 }
